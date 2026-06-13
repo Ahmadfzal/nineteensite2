@@ -1,0 +1,23 @@
+{
+  "name": "ninteensite",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "artifacts/*",
+    "lib/*",
+    "scripts"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "typecheck:libs": "tsc --build",
+    "typecheck": "npm run typecheck:libs && npm --workspaces --if-present run typecheck",
+    "build": "npm run typecheck:libs && npm -w @workspace/api-server run build && npm -w @workspace/marketplace run build",
+    "start": "npm -w @workspace/api-server run start"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3",
+    "typescript": "~5.9.3"
+  }
+}
