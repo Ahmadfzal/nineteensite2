@@ -45,8 +45,12 @@ router.post("/storage/upload", upload.single("file"), async (req: Request, res: 
     await file.save(req.file.buffer, { contentType: req.file.mimetype, resumable: false });
     res.json({ objectPath: `/objects/uploads/${objectId}` });
   } catch (err) {
-    req.log.error({ err }, "Error uploading file");
-    res.status(500).json({ error: "Upload failed" });
+  req.log.error({ err }, "Error uploading file");
+  res.status(500).json({ 
+    error: "Upload failed", 
+    detail: err instanceof Error ? err.message : String(err),
+    stack: err instanceof Error ? err.stack : undefined
+  });
   }
 });
 
