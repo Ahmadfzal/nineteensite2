@@ -21,6 +21,13 @@ const objectStorageService = new ObjectStorageService();
  * Accepts a `file` field, uploads to object storage, returns { objectPath }.
  */
 router.post("/storage/upload", upload.single("file"), async (req: Request, res: Response) => {
+  console.log("ENV CHECK:", {
+    endpoint: process.env.SUPABASE_S3_ENDPOINT,
+    bucket: process.env.SUPABASE_S3_BUCKET,
+    accessKey: process.env.SUPABASE_S3_ACCESS_KEY_ID ? "SET" : "NOT SET",
+    secretKey: process.env.SUPABASE_S3_SECRET_ACCESS_KEY ? "SET" : "NOT SET",
+    privateDir: process.env.PRIVATE_OBJECT_DIR,
+  });
   if (!req.session.adminId) {
     res.status(401).json({ error: "Not authenticated" });
     return;
