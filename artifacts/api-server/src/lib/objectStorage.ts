@@ -113,11 +113,8 @@ export class ObjectStorageService {
     if (!objectPath.startsWith("/objects/")) {
       throw new ObjectNotFoundError();
     }
-
     const entityId = objectPath.replace("/objects/", "");
-    const privateDir = this.getPrivateObjectDir();
-    const key = `${privateDir}/${entityId}`.replace(/^\//, "");
-
+    const key = entityId.replace(/^\//, "");
     try {
       await objectStorageClient.send(new HeadObjectCommand({ Bucket: BUCKET, Key: key }));
       return { bucket: BUCKET, key };

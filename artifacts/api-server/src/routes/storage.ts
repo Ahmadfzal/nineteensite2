@@ -47,9 +47,14 @@ router.post("/storage/upload", upload.single("file"), async (req: Request, res: 
     const parts = fullPath.startsWith("/") ? fullPath.slice(1).split("/") : fullPath.split("/");
     const bucketName = parts[0];
     const objectName = parts.slice(1).join("/");
-    const bucket = objectStorageClient.bucket(bucketName);
-    const file = bucket.file(objectName);
-    await file.save(req.file.buffer, { contentType: req.file.mimetype, resumable: false });
+    const { PutObjectCommand } = await import("@aws-sdk/client-s3");
+const key = `${process.env.PRIVATE_OBJECT_DIR || "uploads"}/${objectId}`;
+await objectStorageClient.send(new PutObjectCommand({
+  Bucket: process.env.SUPABASE_S3_BUCKET || "",
+  Key: key,
+  Body: req.file.buffer,
+  ContentType: req.file.mimetype,
+}));
     res.json({ objectPath: `/objects/uploads/${objectId}` });
   } catch (err) {
   req.log.error({ err }, "Error uploading file");
