@@ -76930,9 +76930,13 @@ router7.post("/storage/upload", upload.single("file"), async (req, res) => {
     await file2.save(req.file.buffer, { contentType: req.file.mimetype, resumable: false });
     res.json({ objectPath: `/objects/uploads/${objectId}` });
   } catch (err) {
-    req.log.error({ err }, "Error uploading file");
-    res.status(500).json({ error: "Upload failed" });
-  }
+  req.log.error({ err }, "Error uploading file");
+  res.status(500).json({ 
+    error: "Upload failed", 
+    detail: err instanceof Error ? err.message : String(err),
+    stack: err instanceof Error ? err.stack : undefined
+  });
+}
 });
 router7.post("/storage/uploads/request-url", async (req, res) => {
   const parsed = RequestUploadUrlBody.safeParse(req.body);
