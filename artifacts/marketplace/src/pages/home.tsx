@@ -18,10 +18,10 @@ export default function HomePage() {
   const { data: categories } = useListCategories();
   const { data: settings } = useGetSettings();
 
-  const heroBadge = settings?.heroBadge ?? "Sewa website profesional,Praktis & Terjangkau";
+  const heroBadge = settings?.heroBadge ?? "Sewa website dengan harga terjangkau!";
   const heroTitle = settings?.heroTitle ?? "Website siap pakai";
-  const heroSubtitle = settings?.heroSubtitle ?? "Tanpa ribet, tanpa pusing, langsung online!";
-  const heroDescription = settings?.heroDescription ?? " Hadirkan website berkualitas pada bisnis anda dengan mudah dan cepat, Tersedia berbagai pilihan template hingga cosutum sesuai kebutuhan anda";
+  const heroSubtitle = settings?.heroSubtitle ?? "Tanpa ribet";
+  const heroDescription = settings?.heroDescription ?? " Hadirkan website pada bisnis anda dengan mudah dan cepat, Tersedia berbagai pilihan template hingga costum sesuai kebutuhan anda";
 
   return (
     <PublicLayout>
